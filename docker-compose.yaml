@@ -1,0 +1,30 @@
+services:
+  mariadb:
+    image: mariadb:11.2.2
+    container_name: mariadb_javaweb
+    environment:
+      MYSQL_DATABASE: bd_task
+      MYSQL_USER: cefetino
+      MYSQL_PASSWORD: cefetino
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - javaweb_project
+
+  webapp:
+    image: webapp
+    container_name: webapp
+    build: .
+    ports:
+      - "8000:8080"
+
+volumes:
+  mariadb_data:
+
+networks:
+  javaweb_project:
+    driver: bridge
+    
