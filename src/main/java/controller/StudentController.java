@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,22 +19,35 @@ public class StudentController extends HttpServlet{
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String registration = request.getParameter("registrationGet").trim();
-        String message = "Matrícula não encontrada!";
-
-        if (registration == null){
-            request.setAttribute("messageGet", message);
-
-        }else {
-            Student student = studentDAO.findByRegistration(registration);
-            if(student != null){
-                request.setAttribute("idGet", student.getId().toString());
-                request.setAttribute("nameGet", student.getName());
-                request.setAttribute("lastnameGet", student.getLastname());
-                request.setAttribute("registrationGet", student.getRegistration());
-
+        String method = request.getParameter("_method");
+        
+        if(method.equals("GET ALL")){
+            List<Student> students = studentDAO.findAll();
+            if (students.isEmpty()){
+                
             }else{
+                System.out.println(students);
+                request.setAttribute("list", students);
+            }
+
+        }else{
+            String registration = request.getParameter("registrationGet").trim();
+            String message = "Matrícula não encontrada!";
+
+            if (registration == null){
                 request.setAttribute("messageGet", message);
+    
+            }else {
+                Student student = studentDAO.findByRegistration(registration);
+                if(student != null){
+                    request.setAttribute("idGet", student.getId().toString());
+                    request.setAttribute("nameGet", student.getName());
+                    request.setAttribute("lastnameGet", student.getLastname());
+                    request.setAttribute("registrationGet", student.getRegistration());
+    
+                }else{
+                    request.setAttribute("messageGet", message);
+                }
             }
         }
 

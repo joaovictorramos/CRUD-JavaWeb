@@ -1,4 +1,6 @@
 <%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page isELIgnored="false"%>
 <!DOCTYPE html>
 <html>
@@ -75,6 +77,7 @@
         <div class="get-containter">
             <h2>GET</h2>
             <form action="RegisterStudent" method="get">
+                <input type="hidden" name="_method" value="GET">
                 <div>
                     <label for="registrationGet">Registration: </label>
                     <input type="text" name="registrationGet" id="registrationGet">
@@ -135,6 +138,34 @@
                                 %>
                             </td>
                         </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <br>
+        <div class="getall-container">
+            <h2>GET ALL</h2>
+            <form action="RegisterStudent" method="get">
+                <input type="hidden" name="_method" value="GET ALL">
+                <input type="submit" value="Get all">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>lastname</th>
+                            <th>registration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach var="Student" items="${list}">
+                            <tr>
+                                <td><c:out value="${Student.id}" /></td>
+                                <td><c:out value="${Student.name}" /></td>
+                                <td><c:out value="${Student.lastname}" /></td>
+                                <td><c:out value="${Student.registration}" /></td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </form>

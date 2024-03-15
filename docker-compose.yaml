@@ -14,12 +14,12 @@ services:
     networks:
       - javaweb_project
 
-  webapp:
-    image: webapp
-    container_name: webapp
-    build: .
-    ports:
-      - "8000:8080"
+  #webapp:
+  #  image: webapp
+  #  container_name: webapp
+  #  build: .
+  #  ports:
+  #    - "8000:8080"
 
 volumes:
   mariadb_data:

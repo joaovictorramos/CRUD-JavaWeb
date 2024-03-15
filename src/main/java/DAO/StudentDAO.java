@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Student;
 
@@ -14,6 +16,7 @@ public class StudentDAO {
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            //Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
 
@@ -147,6 +150,42 @@ public class StudentDAO {
             }
         }
         return student;
+    }
+
+    public List<Student> findAll(){
+        List<Student> students = new ArrayList<>();
+        Connection conn = null;
+        String getAll = "SELECT * FROM student";
+        try {
+            conn = connectionDatabase();
+            PreparedStatement pst = conn.prepareStatement(getAll);
+            
+            ResultSet resultSet = pst.executeQuery();
+            while (resultSet.next()){
+                Student student = new Student(
+                    resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("registration")
+                );
+
+                students.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } catch (Exception e){
+            e.printStackTrace();
+
+        } finally{
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return students;
     }
 
     public boolean deleteStudent(String registration){
